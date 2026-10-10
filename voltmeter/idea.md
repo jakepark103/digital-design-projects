@@ -27,7 +27,10 @@
 -
 - 
 
-![](./)
+### Things to Fix?
+- Rounding (The Voltmeter only truncates, does not round)
+- Ammeter could potentially be developed?
+- Oscilloscope could also potentially be developed (after VGA lab or UART library is developed for a diff project)
 
 ## DEMO!
 
