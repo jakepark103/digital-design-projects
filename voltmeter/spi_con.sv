@@ -14,7 +14,7 @@ module spi_con (
   output logic copi, // controller in, peripheral out
   output logic dclk, // data clk
   output logic cs_n // chip select is active low
-  );
+);
   // state enum
   // https://learn.sparkfun.com/tutorials/serial-peripheral-interface-spi/all
   // IDLE, LOAD, TRANSMIT, DONE
@@ -24,9 +24,9 @@ module spi_con (
                     DONE=2'b11} state, next_state;
 
   // wires
-  logic [2:0] bit_count; // 8 bits
-  logic [7:0] tx_buffer;
-  logic [7:0] rx_buffer;
+  logic [4:0] bit_count; // 24 bits (use 5 bit width)
+  logic [23:0] tx_buffer;
+  logic [23:0] rx_buffer;
   logic [31:0] counter; // counter to simulate baud rate
 
   // constants
@@ -36,32 +36,32 @@ module spi_con (
   always_ff @(posedge clk, negedge rst_n) begin
     if (~rst_n) begin
       state <= IDLE;
-      tx_buffer <= 8'b0;
-      rx_buffer <= 8'b0;
-      bit_count <= 3'b0;
+      tx_buffer <= 24'b0;
+      rx_buffer <= 24'b0;
+      bit_count <= 5'b0;
       counter <= 32'b0;
       copi <= 0;
       dclk <= 0;
     end else begin
       // need to probably buffer this with a counter
       if (state == LOAD) begin
-        tx_buffer <= data_in;
-        rx_buffer <= 8'b0;
-        bit_count <= 3'b0;
+        tx_buffer <= {8'b000_0001, data_in, 8'b0000_0000};
+        rx_buffer <= 24'b0;
+        bit_count <= 5'b0;
         counter <= 32'b0;
-        copi <= data_in[7];
+        copi <= 1'b0;
       end
       else if (state == TRANSMIT) begin
         if (counter == full_data_period - 1) begin // rising edge of dclk
           dclk <= 0; // toggle the data clock(?) aka fake clock
-          copi <= tx_buffer[6]; // Drive current MSB out to SPI bus
-          tx_buffer <= {tx_buffer[6:0], 1'b0}; // Shift left
+          copi <= tx_buffer[22]; // Drive current MSB out to SPI bus
+          tx_buffer <= {tx_buffer[22:0], 1'b0}; // Shift left
           counter <= 32'b0;
           bit_count <= bit_count + 1;
         end
         else if (counter == half_data_period) begin // falling edge of dclk
           dclk <= 1; // toggle the data clock(?) aka fake clock
-          rx_buffer <= {rx_buffer[6:0], cipo};
+          rx_buffer <= {rx_buffer[22:0], cipo};
           counter <= counter + 1;
         end
         else begin
@@ -81,13 +81,13 @@ module spi_con (
         next_state = TRANSMIT;
       end
       TRANSMIT: begin
-        next_state = (bit_count == 3'd7 &&
+        next_state = (bit_count == 5'd23 &&
                       counter == full_data_period-1) ? DONE : TRANSMIT; 
       end
       DONE: begin
         next_state = IDLE;
       end 
-      default: next_state = IDLE;
+      default: next_state = IDLE; // default to idle if error?
     endcase   
   end
   // output combinational logic
@@ -112,7 +112,7 @@ module spi_con (
       end
       DONE: begin
         data_valid = 1;
-        data_out = rx_buffer;
+        data_out = rx_buffer[9:2];
         cs_n = 1; // keep cs (enable?) asserted, 
       end
       default: begin
@@ -123,4 +123,4 @@ module spi_con (
     endcase
   end
 
-endmodule
+endmodule : spi_con

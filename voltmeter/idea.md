@@ -1,4 +1,4 @@
-## Proposal
+## Proposal (SPI)
 - Use basys3
 - Sequential + combinational logic
 - SPI controller to interface with MAX3008 ADC chip on breadboard
