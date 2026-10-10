@@ -5,7 +5,6 @@
 - Make the SPI FSM by HAND
 - Pass in value, store it in register?
 - Get value, and output to BCD display as voltage
-- Have a custom symbol for voltage? (Use a bcd slot)
 
 ## Analog Circuit Testing Design
 - Arduino to output voltage
@@ -30,5 +29,6 @@
 
 ![](./)
 
-## Extra: Ammeter (If time permits)
-- Exact same FSM for voltmeter, but redirect to analog circuit for the ammeter
+## DEMO!
+
+[![Watch the video](demo)](https://drive.google.com/file/d/12h5orcRQVlQeZ0sLdd55DCZGVc3c4ML0/view?usp=sharing)
