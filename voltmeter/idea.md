@@ -34,4 +34,6 @@
 
 ## DEMO!
 
+![voltmeter image](./voltmeter.png)
+
 [![Watch the video](demo)](https://drive.google.com/file/d/12h5orcRQVlQeZ0sLdd55DCZGVc3c4ML0/view?usp=sharing)

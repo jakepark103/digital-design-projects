@@ -13,3 +13,6 @@ sim_build/
 *.fst
 results.xml
 __pycache__/
+
+# Verilator stuff
+**/obj_dir/
