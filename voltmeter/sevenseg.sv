@@ -1,5 +1,5 @@
 `default_nettype none
-module SevenSegControl #(parameter COUNT_PERIOD = 100000)
+module SevenSegControl #(parameter COUNT_PERIOD = 100_000)
     (   input wire           clk,
         input wire           rst_n,
         input wire [15:0]    val,

@@ -1,9 +1,8 @@
-`default_nettype none
 // Wrapper module for the voltmeter
 // Measures voltage from 10-bit MAX3008 ADC
 // Gives 7 segment value for voltage
 // Only integer values for now, but decimal support may be added later
-module voltmeter #(parameter COUNT_PERIOD = 50_000_000)
+module voltmeter #(parameter COUNT_PERIOD = 5_000)
 (
   input  logic clk, // clock
   input  logic rst_n, // reset low 
@@ -13,7 +12,9 @@ module voltmeter #(parameter COUNT_PERIOD = 50_000_000)
   output logic dclk, // data clock
   output logic cs_n, // chip select low
   // output data
-  output logic [15:0] bcd_val // 16 bit bcd val
+  output logic [15:0] bcd_val, // 16 bit bcd val
+  output logic [7:0] adc_raw_val, // raw 8 bit voltage value
+  output logic  measure_done // indicate when new reading is ready
 );
 
   // state transition wires / conditions
@@ -129,5 +130,7 @@ module voltmeter #(parameter COUNT_PERIOD = 50_000_000)
   
   // output  (bcd value)
   assign bcd_val = bcd_reg;
+  assign adc_raw_val = adc_avg;
+  assign measure_done = (state == DONE);
 
 endmodule : voltmeter
