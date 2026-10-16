@@ -8,7 +8,7 @@
 // 8-bit width
 // https://nandland.com/uart-serial-port-module/
 // https://www.physics.umd.edu/hep/drew/495/serial_communication.html
-module uartRX 
+module uart_rx 
 #(parameter CLOCKS_PER_BIT=100,
   parameter WIDTH=8)
 ( input  logic clock,
@@ -143,4 +143,4 @@ module uartRX
   
 
 
-endmodule : uartRX
+endmodule : uart_rx

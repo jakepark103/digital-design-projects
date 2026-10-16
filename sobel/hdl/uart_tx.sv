@@ -8,7 +8,7 @@
 // 8-bit width
 // https://nandland.com/uart-serial-port-module/
 // https://www.physics.umd.edu/hep/drew/495/serial_communication.html
-module uartTX
+module uart_tx
 #(parameter CLOCKS_PER_BIT=100,
   parameter WIDTH=8)
 ( input logic clock,
@@ -138,5 +138,5 @@ module uartTX
     endcase
   end
 
-endmodule : uartTX
+endmodule : uart_tx
 
