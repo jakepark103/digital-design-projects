@@ -18,14 +18,14 @@ module line_buffer
   logic [ADDR_WIDTH-1:0] ptr_reg;
 
   // instantiate bram module
-  simple_dual_port_ram #(.WIDTH, .LINE_LEN, .ADDR_WIDTH) 
-  bram (.clock,
-        .en_a(rw_en), 
-        .en_b(rw_en),
-        .addr_a(ptr_reg),
-        .addr_b(ptr_reg),
-        .din,
-        .dout);
+  simple_dual_port_ram bram 
+  (.clock,
+   .en_a(rw_en), 
+   .en_b(rw_en),
+   .addr_a(ptr_reg),
+   .addr_b(ptr_reg),
+   .din,
+   .dout);
 
   always_ff @(posedge clock) begin
     if (~reset_n) begin

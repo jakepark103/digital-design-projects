@@ -55,7 +55,7 @@ module sobel_operator
 
     // mux to 255 or 0 pixel value based on G
     // if G_val > 100 (let's just )
-    p_sobel_out = (G_val > 12'd128) ? 8'd255 : 8'd0;
+    p_sobel_out = (G_val > 12'd100) ? 8'd255 : 8'd0;
 
   end
 

@@ -42,7 +42,7 @@ async def test_gaussian ():
     logger.info("Testing with random pixels")
     set_pixels(dut, p)
 
-    await Timer(5)
+    await Timer(5, units="ns")
     # check result
     output_val = int(dut.p_blur_out.value)
     expected_val = int(compute_expected_gaussian(p))

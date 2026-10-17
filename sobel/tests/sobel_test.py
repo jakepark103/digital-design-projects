@@ -46,7 +46,7 @@ async def sobel_test (dut):
     logger.info("Testing with random pixel values")
     set_pixels(dut, p)
 
-    await Timer(5)
+    await Timer(5, units="ns")
     # check result
     output_val = int(dut.p_sobel_out.value)
     expected_val = int(compute_expected_sobel(p))

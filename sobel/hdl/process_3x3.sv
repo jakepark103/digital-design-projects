@@ -24,16 +24,14 @@ module process_3x3
 
   // The total system shifts a pixel from bottom to top, where p_in goes to p9, p9 -> p8, ...
   // middle row bram (one row previously)
-  line_buffer #(.WIDTH, .LINE_LEN, .ADDR_WIDTH)
-  mid_row_buffer 
+  line_buffer mid_row_buffer 
   (.clock, 
    .reset_n, 
    .rw_en(p_valid), 
    .din(p_in), 
    .dout(mid_row_dout));
   // top row bram, oldest data (two rows previously)
-  line_buffer #(.WIDTH, .LINE_LEN, .ADDR_WIDTH)
-  top_row_buffer 
+  line_buffer top_row_buffer 
   (.clock, 
    .reset_n, 
    .rw_en(p_valid), 

@@ -79,6 +79,10 @@ module uart_tx
           if (clock_count_reg == 7'd99) begin
             clock_count_reg <= 7'd0;
             tx_done_reg <= 1'b1;
+            // get tx_data new data immediately
+            if (tx_valid) begin
+              tx_data_reg <= tx_byte;
+            end
           end else begin
             clock_count_reg <= clock_count_reg + 7'd1;
           end
@@ -118,7 +122,12 @@ module uart_tx
       STOP : begin
         // wait a full period to transition
         if (clock_count_reg == 7'd99) begin
-          next_state = IDLE;
+          if (tx_valid) begin
+            // bypass IDLE, go straight to start if data is being sent again
+            next_state = START;
+          end else begin
+            next_state = IDLE;
+          end
         end
       end
     endcase
